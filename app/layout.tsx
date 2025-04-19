@@ -5,6 +5,7 @@ export const metadata: Metadata = {
   title: 'tech-slider-editor',
   description: 'Created by T0N1',
   generator: 'v0.dev',
+  icons: 'favicon.svg'
 }
 
 export default function RootLayout({

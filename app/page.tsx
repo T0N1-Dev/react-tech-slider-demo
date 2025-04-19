@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Terminal } from "lucide-react";
+import Head from 'next/head';
 
 export default function SliderPropsEditor() {
   const [borderWidth, setBorderWidth] = useState(1);
@@ -39,6 +40,9 @@ export default function SliderPropsEditor() {
   
   return (
     <div className="container mx-auto py-10 px-4">
+      <Head>
+        <link rel="icon" href="../public/favicon.ico"/>
+      </Head>
 
       <h1 className="text-3xl font-bold mb-8 text-center">Slider Props Editor</h1>
 
