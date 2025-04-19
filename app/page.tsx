@@ -152,13 +152,13 @@ export default function SliderPropsEditor() {
 
               <div className="space-y-2">
                 <Label htmlFor="speed">Animation Speed (ms)</Label>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 w-[95%]">
                   <input
                     id="speed"
                     type="range"
                     min="5000"
                     max="40000"
-                    step="2000"
+                    step="5000"
                     value={speed}
                     onChange={(e) => setSpeed(Number(e.target.value))}
                     className="flex-1 h-2 rounded-full appearance-none cursor-pointer bg-gray-100 border border-gray-200"
