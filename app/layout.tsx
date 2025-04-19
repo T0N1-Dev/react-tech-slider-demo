@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
-import './globals.css'
+import './globals.css';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: 'tech-slider-editor',
@@ -16,6 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>{children}</body>
+      <SpeedInsights />
     </html>
   )
 }
