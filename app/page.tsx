@@ -1,8 +1,9 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import useEmblaCarousel from "embla-carousel-react";
 import { Slider } from "react-tech-slider";
-import { techStack } from "@/lib/data"
+import { techStack, sportBrands, foodBrands } from "@/lib/data"
 import { Card } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -10,6 +11,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Terminal } from "lucide-react";
 import Head from 'next/head';
+import MultiSliderCarousel from "@/components/MultiSliderCarousel";
 
 export default function SliderPropsEditor() {
   const [borderWidth, setBorderWidth] = useState(1);
@@ -178,12 +180,11 @@ export default function SliderPropsEditor() {
         <div className="lg:col-span-2">
           <Card className="p-6">
             <h2 className="text-xl font-semibold mb-4">Preview</h2>
-            <div className="bg-gray-50 p-6 rounded-lg">
+            <div className="p-6 rounded-lg">
               {
                 loaded ?
                   <div className={`transition-opacity duration-300 ${loaded ? "opacity-100 visible" : "opacity-0 invisible"}`}>
-                    <Slider
-                      brandsList={techStack}
+                    <MultiSliderCarousel
                       borderWidth={borderWidth}
                       borderColor={borderColor}
                       backgroundColor={backgroundColor}
