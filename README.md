@@ -2,6 +2,12 @@
 
 This project is a demonstration application for the npm package `react-tech-slider`, allowing users to experiment and test the component's different properties in real-time.
 
+---
+
+## Live Code Here 👉 [Slider Props Editor](https://react-tech-slider-demo-git-main-t0n1-devs-projects.vercel.app/)
+
+---
+
 ## 🚀 Features
 
 - Interactive interface to modify slider properties
