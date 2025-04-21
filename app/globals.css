@@ -111,3 +111,24 @@
     outline: none;
   }
 }
+
+.brand-slider.reebok-icon, 
+.brand-slider.under-armour {
+  width: 4rem;
+}
+
+.brand-slider.converse-icon {
+  margin-top: 10px;
+  width: 7rem;
+}
+
+
+.brand-slider.northFace-icon {
+  margin-left: -20px;
+  width: 7rem;
+}
+
+.brand-slider.asics-icon {
+  margin-top: 10px;
+  width: 6rem;
+}

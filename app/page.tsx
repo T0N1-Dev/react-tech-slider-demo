@@ -1,22 +1,21 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect,useCallback, useState } from "react";
+import { Card } from "@/components/ui/card";
 import useEmblaCarousel from "embla-carousel-react";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "react-tech-slider";
-import { techStack, sportBrands, foodBrands } from "@/lib/data"
-import { Card } from "@/components/ui/card"
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import { Checkbox } from "@/components/ui/checkbox"
+import { brandLists, categoryLabels } from "@/lib/data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Terminal } from "lucide-react";
 import Head from 'next/head';
-import MultiSliderCarousel from "@/components/MultiSliderCarousel";
 
 export default function SliderPropsEditor() {
   const [borderWidth, setBorderWidth] = useState(1);
   const [borderColor, setBorderColor] = useState("#7c05d8");
-  const [backgroundColor, setBackgroundColor] = useState("#00000033");
+  const [backgroundColor, setBackgroundColor] = useState("#e6e6e6");
   const [increaseIconWidth, setIncreaseIconWidth] = useState(false);
 
   // Additional props for more customization
@@ -27,6 +26,43 @@ export default function SliderPropsEditor() {
 
   // Calculate percentage for speed slider (3000-30000 range)
   const speedPercentage = ((speed - 5000) / (40000 - 5000)) * 100;
+
+  const [emblaRef, emblaApi] = useEmblaCarousel();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useEffect(() => {
+    if (selectedIndex == 0) {
+      setBorderWidth(1);
+      setBorderColor("#7c05d8");
+      setBackgroundColor("#f1f5f9");
+    } else if (selectedIndex == 1) {
+      setBorderWidth(2);
+      setBorderColor("#e1ff00");
+      setBackgroundColor("#d52b1e");
+    } else {
+      setBorderWidth(1);
+      setBorderColor("#000000");
+      setBackgroundColor("#ffffff");
+    }
+    setIncreaseIconWidth(false);
+  }, [selectedIndex])
+  
+
+  const scrollTo = useCallback(
+    (index: number) => emblaApi?.scrollTo(index),
+    [emblaApi]
+  );
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setSelectedIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    onSelect();
+    emblaApi.on("select", onSelect);
+  }, [emblaApi, onSelect]);
 
   // To prevent the component from loading before the css
   useEffect(() => {
@@ -184,15 +220,43 @@ export default function SliderPropsEditor() {
               {
                 loaded ?
                   <div className={`transition-opacity duration-300 ${loaded ? "opacity-100 visible" : "opacity-0 invisible"}`}>
-                    <MultiSliderCarousel
-                      borderWidth={borderWidth}
-                      borderColor={borderColor}
-                      backgroundColor={backgroundColor}
-                      iconWidth={increaseIconWidth ? 6 : undefined}
-                      isPlay={autoPlay}
-                      pauseOnHoverActive={pauseOnHover}
-                      durationMs={speed}
-                    />
+                    <div className="relative">
+                      <div className="overflow-hidden" ref={emblaRef}>
+                        <div className="flex">
+                          {brandLists.map((list, index) => (
+                            <div className="min-w-full px-2" key={index}>
+                              <Slider
+                                brandsList={list}
+                                borderWidth={borderWidth}
+                                borderColor={borderColor}
+                                backgroundColor={backgroundColor}
+                                iconWidth={increaseIconWidth ? 6 : undefined}
+                                isPlay={autoPlay}
+                                pauseOnHoverActive={pauseOnHover}
+                                durationMs={speed}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Dots */}
+                      <div className="flex justify-center mt-4 space-x-4">
+                        {brandLists.map((_, index) => (
+                            <button
+                            key={index}
+                            onClick={() => scrollTo(index)}
+                            className={`px-4 py-1 text-sm rounded-full transition-colors duration-200 ${
+                                selectedIndex === index
+                                ? "bg-purple-600 text-white font-semibold shadow"
+                                : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                            }`}
+                            >
+                            {categoryLabels[index]}
+                            </button>
+                        ))}
+                        </div>
+                    </div>
                   </div>
                 : 
                 <div className="h-[100px] flex items-center justify-center">
@@ -211,7 +275,7 @@ export default function SliderPropsEditor() {
               </TabsList>
               <TabsContent value="jsx" className="p-4 bg-gray-100 rounded-md font-mono text-sm overflow-x-auto">
                 {`<Slider
-                  brandsList={techStack}
+                  brandsList={${categoryLabels[selectedIndex].toLowerCase()}}
                   borderWidth={${borderWidth}}
                   borderColor="${borderColor}"
                   backgroundColor="${backgroundColor}"${

@@ -21,7 +21,7 @@ export const techStack = [
         id: 4,
         name: 'Express.js',
         img: 'https://img.icons8.com/color/480/express-js.png',
-        style: { transition: 'width 1s ease', filter: 'invert(1)' }
+        style: { transition: 'width 1s ease' }
     },
     {
         id: 5,
@@ -63,7 +63,7 @@ export const techStack = [
         id: 11,
         name: 'jQuery',
         img: 'https://img.icons8.com/ios-filled/250/jquery.png',
-        style: { transition: 'width 1s ease', filter: 'invert(1)' }
+        style: { transition: 'width 1s ease' }
     },
     {
         id: 12,
@@ -102,37 +102,43 @@ export const sportBrands = [
         id: 2,
         name: 'Converse',
         img: 'https://res.cloudinary.com/dmfs1od9n/image/upload/v1744841614/idxMkffB09_1744841605680_gqphmn.svg',
-        style: { transition: 'width 1s ease' }
+        style: { transition: 'width 1s ease' },
+        className: 'converse-icon'
     },   
     {
         id: 3,
         name: 'Asics',
         img: 'https://res.cloudinary.com/dmfs1od9n/image/upload/v1744835607/asics_wmnxnz.svg',
-        style: { transition: 'width 1s ease' }
+        style: { transition: 'width 1s ease' },
+        className: 'asics-icon'
     },   
     {
         id: 4,
         name: 'Puma',
         img: 'https://res.cloudinary.com/dmfs1od9n/image/upload/v1744835609/puma-logo-logo-svgrepo-com_ylvldf.svg',
-        style: { transition: 'width 1s ease' }
+        style: { transition: 'width 1s ease' },
+        className: 'puma-icon'
     },   
     {
         id: 5,
         name: 'Reebok',
         img: 'https://res.cloudinary.com/dmfs1od9n/image/upload/v1744835608/reebok-crossfit_ger10e.svg',
-        style: { transition: 'width 1s ease' }
+        style: { transition: 'width 1s ease'},
+        className: 'reebok-icon'
     },   
     {
         id: 6,
         name: 'Under Armour',
         img: 'https://res.cloudinary.com/dmfs1od9n/image/upload/v1744835607/under-armour_ddci89.svg',
-        style: { transition: 'width 1s ease' }
+        style: { transition: 'width 1s ease'},
+        className: 'under-armour'
     },   
     {
         id: 7,
         name: 'The North Face',
         img: 'https://res.cloudinary.com/dmfs1od9n/image/upload/v1744835607/the-north-face_jql7qf.svg',
-        style: { transition: 'width 1s ease' }
+        style: { transition: 'width 1s ease' },
+        className: 'northFace-icon'
     },   
     {
         id: 8,
@@ -216,3 +222,6 @@ export const foodBrands = [
         style: { transition: 'width 1s ease' }
     }, 
 ]
+  
+export const categoryLabels = ["Tech", "Food", "Sport"];
+export const brandLists = [techStack, foodBrands, sportBrands];
