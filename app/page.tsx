@@ -45,7 +45,17 @@ export default function SliderPropsEditor() {
 
             <div className="space-y-6">
               
-              <RangeBar borderWidth={borderWidth} setBorderWidth={setBorderWidth} />
+              <RangeBar 
+                value={borderWidth} 
+                setState={setBorderWidth} 
+                htmlFor="borderWidth" 
+                htmlForText="Border Width" 
+                id="borderWidth"
+                minRange={0}
+                maxRange={10}
+                styleBackgroundStyleInitValue={borderWidth * 10}
+                styleBackgroundStyleEndValue={borderWidth * 10}
+              />
 
               <div className="space-y-2">
                 <Label htmlFor="borderColor">Border Color</Label>
@@ -124,27 +134,20 @@ export default function SliderPropsEditor() {
                 </Label>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="speed">Animation Speed (ms)</Label>
-                <div className="flex items-center gap-4 w-[95%]">
-                  <input
-                    id="speed"
-                    type="range"
-                    min={`${minRange}`}
-                    max={`${maxRange}`}
-                    step="5000"
-                    value={speed}
-                    onChange={(e) => setSpeed(Number(e.target.value))}
-                    className="flex-1 h-2 rounded-full appearance-none cursor-pointer bg-gray-100 border border-gray-200"
-                    style={{
-                      background: `linear-gradient(to right, #7c05d8 0%, #7c05d8 ${speedPercentage}%, #f1f3f4 ${speedPercentage}%, #f1f3f4 100%)`,
-                      WebkitAppearance: "none",
-                      MozAppearance: "none",
-                    }}
-                  />
-                  <span className="w-8 text-center">{speed}ms</span>
-                </div>
-              </div>
+              <RangeBar 
+                value={speed}
+                setState={setSpeed}
+                htmlFor="speed"
+                htmlForText="Animation Speed (ms)"
+                className="w-[95%]"
+                id="speed"
+                minRange={minRange}
+                maxRange={maxRange}
+                step={5000}
+                styleBackgroundStyleInitValue={speedPercentage}
+                styleBackgroundStyleEndValue={speedPercentage}
+              />
+              
             </div>
           </Card>
         </div>

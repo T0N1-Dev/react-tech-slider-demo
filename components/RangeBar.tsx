@@ -1,30 +1,52 @@
 import { Label } from "@/components/ui/label";
 
 type RangeBarProps = {
-    borderWidth: number;
-    setBorderWidth: (value: number) => void;
+    value: number;
+    setState: (value: number) => void;
+    htmlFor: string;
+    htmlForText: string;
+    className?: string;
+    id: string;
+    minRange: number;
+    maxRange: number;
+    step?: number;
+    styleBackgroundStyleInitValue: number;
+    styleBackgroundStyleEndValue: number;
 };
 
-export const RangeBar = ({ borderWidth, setBorderWidth }: RangeBarProps) => {
+export const RangeBar = ({ 
+    value, 
+    setState, 
+    htmlFor, 
+    htmlForText, 
+    className, 
+    id, 
+    minRange, 
+    maxRange, 
+    step = 1,
+    styleBackgroundStyleInitValue, 
+    styleBackgroundStyleEndValue 
+}: RangeBarProps) => {
     return (
         <div className="space-y-2">
-            <Label htmlFor="borderWidth">Border Width</Label>
-            <div className="flex items-center gap-4">
+            <Label htmlFor={`${htmlFor}`}>{htmlForText}</Label>
+            <div className={`flex items-center gap-4 ${className}`} >
                 <input
-                id="borderWidth"
+                id={id}
                 type="range"
-                min="0"
-                max="10"
-                value={borderWidth}
-                onChange={(e) => setBorderWidth(Number(e.target.value))}
+                min={`${minRange}`}
+                max={`${maxRange}`}
+                value={value}
+                step={step}
+                onChange={(e) => setState(Number(e.target.value))}
                 className="flex-1 h-2 rounded-full appearance-none cursor-pointer bg-gray-100 border border-gray-200"
                 style={{
-                    background: `linear-gradient(to right, #7c05d8 0%, #7c05d8 ${borderWidth * 10}%, #f1f3f4 ${borderWidth * 10}%, #f1f3f4 100%)`,
+                    background: `linear-gradient(to right, #7c05d8 0%, #7c05d8 ${styleBackgroundStyleInitValue}%, #f1f3f4 ${styleBackgroundStyleEndValue}%, #f1f3f4 100%)`,
                     WebkitAppearance: "none",
                     MozAppearance: "none",
                 }}
                 />
-                <span className="w-8 text-center">{borderWidth}px</span>
+                <span className="w-8 text-center">{value}px</span>
             </div>
         </div>
     )
