@@ -1,8 +1,7 @@
 "use client"
 
-import { useEffect,useCallback, useState } from "react";
+import { useState } from "react";
 import { Card } from "@/components/ui/card";
-import useEmblaCarousel from "embla-carousel-react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -11,70 +10,25 @@ import { brandLists, categoryLabels } from "@/lib/data";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Terminal } from "lucide-react";
 import Head from 'next/head';
+import { useSliderStyles } from "@/hooks/useSliderStyles";
+import { useEmblaCarouselData } from "@/hooks/useEmblaCarouselData";
+import { useLoaded } from "@/hooks/useLoaded";
+import { usePercentage } from "@/hooks/usePercentage";
+import { RangeBar } from "@/components/RangeBar";
 
 export default function SliderPropsEditor() {
-  const [borderWidth, setBorderWidth] = useState(1);
-  const [borderColor, setBorderColor] = useState("#7c05d8");
-  const [backgroundColor, setBackgroundColor] = useState("#e6e6e6");
   const [increaseIconWidth, setIncreaseIconWidth] = useState(false);
-
-  // Additional props for more customization
   const [autoPlay, setAutoPlay] = useState(true);
   const [pauseOnHover, setPauseOnHover] = useState(false);
   const [speed, setSpeed] = useState(30000);
-  const [loaded, setLoaded] = useState(false);
+  const { emblaRef, scrollTo, selectedIndex } = useEmblaCarouselData();
+  const { borderColor, backgroundColor, borderWidth, setBackgroundColor, setBorderColor, setBorderWidth } = useSliderStyles(selectedIndex);
+  const { loaded } = useLoaded();
 
-  // Calculate percentage for speed slider (3000-30000 range)
-  const speedPercentage = ((speed - 5000) / (40000 - 5000)) * 100;
-
-  const [emblaRef, emblaApi] = useEmblaCarousel();
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  useEffect(() => {
-    if (selectedIndex == 0) {
-      setBorderWidth(1);
-      setBorderColor("#7c05d8");
-      setBackgroundColor("#f1f5f9");
-    } else if (selectedIndex == 1) {
-      setBorderWidth(2);
-      setBorderColor("#e1ff00");
-      setBackgroundColor("#d52b1e");
-    } else {
-      setBorderWidth(1);
-      setBorderColor("#000000");
-      setBackgroundColor("#ffffff");
-    }
-    setIncreaseIconWidth(false);
-  }, [selectedIndex])
-  
-
-  const scrollTo = useCallback(
-    (index: number) => emblaApi?.scrollTo(index),
-    [emblaApi]
-  );
-
-  const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
-
-  useEffect(() => {
-    if (!emblaApi) return;
-    onSelect();
-    emblaApi.on("select", onSelect);
-  }, [emblaApi, onSelect]);
-
-  // To prevent the component from loading before the css
-  useEffect(() => {
-    const handleLoad = () => setLoaded(true);
-
-    if (document.readyState === "complete") {
-      handleLoad();
-    } else {
-      window.addEventListener("load", handleLoad);
-      return () => window.removeEventListener("load", handleLoad);
-    }
-  }, [])
+  // Calculate percentage for speed slider (5000-40000 range)
+  const minRange = 5000;
+  const maxRange = 40000;
+  const { speedPercentage } = usePercentage(speed, minRange, maxRange);
   
   return (
     <div className="container mx-auto py-10 px-4">
@@ -90,26 +44,8 @@ export default function SliderPropsEditor() {
             <h2 className="text-xl font-semibold mb-4">Customize Props</h2>
 
             <div className="space-y-6">
-              <div className="space-y-2">
-                <Label htmlFor="borderWidth">Border Width</Label>
-                <div className="flex items-center gap-4">
-                  <input
-                    id="borderWidth"
-                    type="range"
-                    min="0"
-                    max="10"
-                    value={borderWidth}
-                    onChange={(e) => setBorderWidth(Number(e.target.value))}
-                    className="flex-1 h-2 rounded-full appearance-none cursor-pointer bg-gray-100 border border-gray-200"
-                    style={{
-                      background: `linear-gradient(to right, #7c05d8 0%, #7c05d8 ${borderWidth * 10}%, #f1f3f4 ${borderWidth * 10}%, #f1f3f4 100%)`,
-                      WebkitAppearance: "none",
-                      MozAppearance: "none",
-                    }}
-                  />
-                  <span className="w-8 text-center">{borderWidth}px</span>
-                </div>
-              </div>
+              
+              <RangeBar borderWidth={borderWidth} setBorderWidth={setBorderWidth} />
 
               <div className="space-y-2">
                 <Label htmlFor="borderColor">Border Color</Label>
@@ -194,8 +130,8 @@ export default function SliderPropsEditor() {
                   <input
                     id="speed"
                     type="range"
-                    min="5000"
-                    max="40000"
+                    min={`${minRange}`}
+                    max={`${maxRange}`}
                     step="5000"
                     value={speed}
                     onChange={(e) => setSpeed(Number(e.target.value))}
@@ -259,7 +195,7 @@ export default function SliderPropsEditor() {
                     </div>
                   </div>
                 : 
-                <div className="h-[100px] flex items-center justify-center">
+                <div className="h-[144px] flex items-center justify-center">
                   <div className="w-8 h-8 border-4 border-[#7c05d8] border-t-transparent rounded-full animate-spin"></div>
                 </div>
               }
