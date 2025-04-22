@@ -219,9 +219,8 @@ export default function SliderPropsEditor() {
                   borderColor="${borderColor}"
                   backgroundColor="${backgroundColor}"${
                     increaseIconWidth
-                      ? `
+                      && `
                   iconWidth={10}`
-                      : ""
                   }${
                     !autoPlay
                       ? `
