@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css';
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: 'tech-slider-editor',
@@ -16,8 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
-      <SpeedInsights />
+      <body>
+        {children}
+        <SpeedInsights />
+        <Analytics />
+      </body>
     </html>
   )
 }
