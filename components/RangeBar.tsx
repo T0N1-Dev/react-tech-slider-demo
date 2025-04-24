@@ -10,6 +10,7 @@ type RangeBarProps = {
     minRange: number;
     maxRange: number;
     step?: number;
+    unit?: string;
     styleBackgroundStyleInitValue: number;
     styleBackgroundStyleEndValue: number;
 };
@@ -24,6 +25,7 @@ export const RangeBar = ({
     minRange, 
     maxRange, 
     step = 1,
+    unit = "px",
     styleBackgroundStyleInitValue, 
     styleBackgroundStyleEndValue 
 }: RangeBarProps) => {
@@ -46,7 +48,7 @@ export const RangeBar = ({
                     MozAppearance: "none",
                 }}
                 />
-                <span className="w-8 text-center">{value}px</span>
+                <span className="w-8 text-center">{value}{unit}</span>
             </div>
         </div>
     )

@@ -25,7 +25,6 @@ export default function SliderPropsEditor() {
   const { borderColor, backgroundColor, borderWidth, setBackgroundColor, setBorderColor, setBorderWidth } = useSliderStyles(selectedIndex);
   const { loaded } = useLoaded();
 
-  // Calculate percentage for speed slider (5000-40000 range)
   const minSpeedRange = 5000;
   const maxSpeedRange = 40000;
   const minIconWidth = 1;
@@ -107,6 +106,7 @@ export default function SliderPropsEditor() {
                 id="iconWidth"
                 minRange={minIconWidth}
                 maxRange={maxIconWidth}
+                unit="rem"
                 styleBackgroundStyleInitValue={iconPercentage}
                 styleBackgroundStyleEndValue={iconPercentage}
               />
@@ -174,7 +174,7 @@ export default function SliderPropsEditor() {
                                 borderWidth={borderWidth}
                                 borderColor={borderColor}
                                 backgroundColor={backgroundColor}
-                                iconWidth={iconWidth}
+                                iconWidth={iconWidth === 5 ? undefined : iconWidth}
                                 isPlay={autoPlay}
                                 pauseOnHoverActive={pauseOnHover}
                                 durationMs={speed}
