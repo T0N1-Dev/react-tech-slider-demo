@@ -1,8 +1,6 @@
-import { useState } from "react";
+export const usePercentage = (step: number, rangeMin: number, rangeMax: number) => {
 
-export const usePercentage = (speed: number, rangeMin: number, rangeMax: number) => {
+    const percentage = ((step - rangeMin) / (rangeMax - rangeMin)) * 100;
 
-    const speedPercentage = ((speed - rangeMin) / (rangeMax - rangeMin)) * 100;
-
-    return { speedPercentage };
+    return { percentage };
 }

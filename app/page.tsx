@@ -17,7 +17,7 @@ import { usePercentage } from "@/hooks/usePercentage";
 import { RangeBar } from "@/components/RangeBar";
 
 export default function SliderPropsEditor() {
-  const [increaseIconWidth, setIncreaseIconWidth] = useState(false);
+  const [iconWidth, setIconWidth] = useState(5);
   const [autoPlay, setAutoPlay] = useState(true);
   const [pauseOnHover, setPauseOnHover] = useState(false);
   const [speed, setSpeed] = useState(30000);
@@ -26,9 +26,13 @@ export default function SliderPropsEditor() {
   const { loaded } = useLoaded();
 
   // Calculate percentage for speed slider (5000-40000 range)
-  const minRange = 5000;
-  const maxRange = 40000;
-  const { speedPercentage } = usePercentage(speed, minRange, maxRange);
+  const minSpeedRange = 5000;
+  const maxSpeedRange = 40000;
+  const minIconWidth = 1;
+  const maxIconWidth = 15;
+  const { percentage: speedPercentage } = usePercentage(speed, minSpeedRange, maxSpeedRange);
+  const { percentage: iconPercentage } = usePercentage(iconWidth, minIconWidth, maxIconWidth);
+
   
   return (
     <div className="container mx-auto py-10 px-4">
@@ -95,16 +99,17 @@ export default function SliderPropsEditor() {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="increaseIconWidth"
-                  checked={increaseIconWidth}
-                  onCheckedChange={(checked) => setIncreaseIconWidth(checked === true)}
-                />
-                <Label htmlFor="increaseIconWidth" className="cursor-pointer">
-                  Increase Icons Width
-                </Label>
-              </div>
+              <RangeBar 
+                value={iconWidth} 
+                setState={setIconWidth} 
+                htmlFor="iconWidth" 
+                htmlForText="Icon Width" 
+                id="iconWidth"
+                minRange={minIconWidth}
+                maxRange={maxIconWidth}
+                styleBackgroundStyleInitValue={iconPercentage}
+                styleBackgroundStyleEndValue={iconPercentage}
+              />
             </div>
           </Card>
 
@@ -141,8 +146,8 @@ export default function SliderPropsEditor() {
                 htmlForText="Animation Speed (ms)"
                 className="w-[95%]"
                 id="speed"
-                minRange={minRange}
-                maxRange={maxRange}
+                minRange={minSpeedRange}
+                maxRange={maxSpeedRange}
                 step={5000}
                 styleBackgroundStyleInitValue={speedPercentage}
                 styleBackgroundStyleEndValue={speedPercentage}
@@ -169,7 +174,7 @@ export default function SliderPropsEditor() {
                                 borderWidth={borderWidth}
                                 borderColor={borderColor}
                                 backgroundColor={backgroundColor}
-                                iconWidth={increaseIconWidth ? 6 : undefined}
+                                iconWidth={iconWidth}
                                 isPlay={autoPlay}
                                 pauseOnHoverActive={pauseOnHover}
                                 durationMs={speed}
@@ -217,10 +222,8 @@ export default function SliderPropsEditor() {
                   brandsList={${categoryLabels[selectedIndex].toLowerCase()}}
                   borderWidth={${borderWidth}}
                   borderColor="${borderColor}"
-                  backgroundColor="${backgroundColor}"${
-                    increaseIconWidth
-                      && `
-                  iconWidth={10}`
+                  backgroundColor="${backgroundColor}"
+                  iconWidth: "${iconWidth}",
                   }${
                     !autoPlay
                       ? `
@@ -243,12 +246,8 @@ export default function SliderPropsEditor() {
                 {`{
                   borderWidth: ${borderWidth},
                   borderColor: "${borderColor}",
-                  backgroundColor: "${backgroundColor}",${
-                    increaseIconWidth
-                      ? `
-                  iconWidth: 10,`
-                      : ""
-                  }
+                  backgroundColor: "${backgroundColor}",
+                  iconWidth: "${iconWidth}",
                   autoPlay: ${autoPlay},
                   pauseOnHover: ${pauseOnHover},
                   speed: ${speed},
